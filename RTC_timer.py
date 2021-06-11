@@ -55,5 +55,6 @@ def set_timer(hours, minutes, seconds):
 #
 # Your sensor behaviour goes here
 #
-set_timer(0,0,5)
-time.sleep(2)
+while(True):
+    set_timer(0,0,5)
+    time.sleep(2)
