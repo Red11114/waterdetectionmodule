@@ -56,5 +56,9 @@ def set_timer(hours, minutes, seconds):
 # Your sensor behaviour goes here
 #
 while(True):
+    print("start")
     set_timer(0,0,5)
-    time.sleep(2)
+    print("wait 5s")
+    time.sleep(5)
+    print("wait another 5s")
+    time.sleep(5)
