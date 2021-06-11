@@ -50,6 +50,24 @@ network={
 ```
 
 Eject the SD card from your computer, then pull it out and plug it into the Raspberry Pi
+### Setup USB Serail comms
+
+```
+sudo nano /boot/config.txt
+```
+add the line 
+
+```
+dtoverlay=dwc2
+```
+```
+sudo nano /boot/cmdline.txt
+```
+add the line (after rootwait)
+
+```
+modules-load=dwc2,g_serial
+```
 
 ### Login over WiFi
 
@@ -122,7 +140,7 @@ ssh pi@testpi2.local
 ```
 ### Enable SPI and I2C
 
-```
+``` 
 sudo raspi-config
 ```
 
