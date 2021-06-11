@@ -157,7 +157,7 @@ Result:
 
 Once connected over WiFi the Pi should be updated by entering the following commands
 ```
-sudo apt-get update -y
+sudo apt-get update -yv
 sudo apt-get upgrade -y
 ```
 
@@ -248,12 +248,12 @@ under the line (25),
 
 add the following
 ```
-hostname ALL=(ALL) NOPASSWORD: /home/hostname/waterdetectionmodule/wifi.sh
+<hostname> ALL=(ALL) NOPASSWORD: /home/<hostname>/waterdetectionmodule/wifi.sh
 ```
 change permissions of file:
 ```
-sudo chmod root:toot /home/username/waterdetectionmodule/wifi.sh
-sudo chmod 700 /home/username/waterdetectionmodule/wifi.sh
+sudo chown root:root /home/<username>/waterdetectionmodule/wifi.sh
+sudo chmod 700 /home/<username>/waterdetectionmodule/wifi.sh
 ```
 
 ## Check Clock update sync
