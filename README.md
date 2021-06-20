@@ -50,7 +50,8 @@ network={
 ```
 
 Eject the SD card from your computer, then pull it out and plug it into the Raspberry Pi
-### Setup USB Serail comms
+
+### Setup USB Serial comms
 
 ```
 sudo nano /boot/config.txt
@@ -68,7 +69,10 @@ add the line (after rootwait)
 ```
 modules-load=dwc2,g_serial
 ```
-
+this command must be run on the pi
+```
+sudo systemctl enable getty@ttyGS0.service
+```
 ### Login over WiFi
 
 The default user will be "pi" with the password "raspberry"
@@ -175,7 +179,7 @@ Result:
 
 Once connected over WiFi the Pi should be updated by entering the following commands
 ```
-sudo apt-get update -yv
+sudo apt-get update -y
 sudo apt-get upgrade -y
 ```
 
