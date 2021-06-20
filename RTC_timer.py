@@ -1,3 +1,4 @@
+from RTC_SDL_DS3231 import SDL_DS3231
 import smbus
 import time
 import os
@@ -56,8 +57,9 @@ def set_timer(hours, minutes, seconds):
 #
 # Your sensor behaviour goes here
 #
+print(time.strftime("%Y-%m-%d %H:%M:%S"))
 os.system('date')
-os.system('sudo date -u –set="%s"' % "2016-10-16 21:00")
+os.system('sudo date -s "2016-10-16 21:00"')
 os.system('date')
 
 while(True):
