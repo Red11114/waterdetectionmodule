@@ -73,6 +73,16 @@ this command must be run on the pi
 ```
 sudo systemctl enable getty@ttyGS0.service
 ```
+
+### Remove fake-hwclock
+https://maker.pro/raspberry-pi/tutorial/how-to-add-an-rtc-module-to-raspberry-pi
+```
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+sudo systemctl disable fake-hwclock
+```
+
+
 ### Login over WiFi
 
 The default user will be "pi" with the password "raspberry"
