@@ -43,15 +43,16 @@ def check_alarm1_triggered():
     return ds3231._read(STATUS_REG) & 0x01 != 0
 
 def set_timer(hours, minutes, seconds):
-    # zero the clock
-    write_time_to_clock(SECONDS_REG, 0, 0, 0)
+    # read clock time
+    clock_time = ds3231.read_all()
     # set the alarm
-    write_time_to_clock(ALARM1_SECONDS_REG, hours, minutes, seconds)
-    # set the alarm to match hours minutes and seconds
+    write_time_to_clock(ALARM1_SECONDS_REG, clock_time[4]+hours, clock_time[5]+minutes, clock_time[6]+seconds)
+    # set the alarm to match hours minutes and seconds from clock time
     # need to set some flags
     set_alarm1_mask_bits((True, False, False, False))
     enable_alarm1()
     clear_alarm1_flag()
+
 
 print("Raspberry Pi=\t" + time.strftime("%Y-%m-%d %H:%M:%S"))
 print("Ds3231=\t\t%s" % ds3231.read_datetime())
