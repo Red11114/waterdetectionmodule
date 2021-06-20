@@ -57,7 +57,7 @@ def set_timer(hours, minutes, seconds):
 # Your sensor behaviour goes here
 #
 os.system('date')
-os.system('sudo date -u –set="%s"' % "2016-10-16 21:00")
+os.system('sudo date -s "2016-10-16 21:00"')
 os.system('date')
 
 while(True):
