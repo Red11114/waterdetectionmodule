@@ -56,7 +56,8 @@ def set_timer(hours, minutes, seconds):
 
 print("Raspberry Pi=\t" + time.strftime("%Y-%m-%d %H:%M:%S"))
 print("Ds3231=\t\t%s" % ds3231.read_datetime())
-
+# ds3231.write_now()
+# print("Ds3231=\t\t%s" % ds3231.read_datetime())
 os.system('date')
 os.system('sudo date -s "%s"' % ds3231.read_datetime())
 os.system('date')
