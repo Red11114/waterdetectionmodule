@@ -63,7 +63,7 @@ print("Raspberry Pi=\t" + time.strftime("%Y-%m-%d %H:%M:%S"))
 print("Ds3231=\t\t%s" % ds3231.read_datetime())
 
 os.system('date')
-os.system('sudo date -s "2016-10-16 21:00"')
+os.system('sudo date -s "%s"' % ds3231.read_datetime())
 os.system('date')
 
 while(True):

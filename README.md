@@ -82,6 +82,9 @@ sudo update-rc.d -f fake-hwclock remove
 sudo systemctl disable fake-hwclock
 ```
 
+### disable bluetooth
+https://www.abelectronics.co.uk/kb/article/1035/serial-port-setup-in-raspberry-pi-os
+sudo systemctl disable hciuart
 
 ### Login over WiFi
 
