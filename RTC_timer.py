@@ -1,8 +1,8 @@
-from RTC_SDL_DS3231 import SDL_DS3231
-import smbus
-import time
-import os
 import logging
+import os
+import time
+
+from RTC_SDL_DS3231 import SDL_DS3231
 
 ds3231 = SDL_DS3231.SDL_DS3231(1, 0x68)
 
@@ -45,9 +45,8 @@ def check_alarm1_triggered():
 def set_timer(hours, minutes, seconds):
     # read clock time
     clock_time = ds3231.read_all()
-    # set the alarm
+    # set the alarm to be time + desired timer duration
     write_time_to_clock(ALARM1_SECONDS_REG, clock_time[4]+hours, clock_time[5]+minutes, clock_time[6]+seconds)
-    # set the alarm to match hours minutes and seconds from clock time
     # need to set some flags
     set_alarm1_mask_bits((True, False, False, False))
     enable_alarm1()
@@ -61,6 +60,7 @@ print("Ds3231=\t\t%s" % ds3231.read_datetime())
 os.system('date')
 os.system('sudo date -s "%s"' % ds3231.read_datetime())
 os.system('date')
+print("DS3231 Temp=", ds3231.getTemp())
 
 while(True):
     print("start")
