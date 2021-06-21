@@ -63,8 +63,10 @@ dtoverlay=dwc2
 ```
 ```
 sudo nano /boot/cmdline.txt
+
 ```
-add the line (after rootwait)
+change console serial port to serail1
+add this line (after rootwait)
 
 ```
 modules-load=dwc2,g_serial
@@ -84,8 +86,9 @@ sudo systemctl disable fake-hwclock
 
 ### disable bluetooth
 https://www.abelectronics.co.uk/kb/article/1035/serial-port-setup-in-raspberry-pi-os
+```
 sudo systemctl disable hciuart
-
+```
 ### Login over WiFi
 
 The default user will be "pi" with the password "raspberry"
