@@ -232,11 +232,11 @@ if (11.5 > voltage):
     print("send text for VERY LOW")
     # check if modem has been initialised
     try:
+        print("try to connect to modem")
         modem.connect()
     except:
+        print("unable to connect to modem")
         modem = modem_init()
-    # if not modem:
-    #     modem = modem_init()
 
     # Send a text message
     modem.sendMessage(
