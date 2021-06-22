@@ -23,7 +23,7 @@ STATUS_REG = 0x0F
 
 # Pi Zero Pin Definitions
 FLOAT = 17
-BUTTON = 27
+MODEM_POWER = 27
 LED = 22
 
 # 3G LTE Modem Pin Definitions 
@@ -153,7 +153,7 @@ def check_voltage(ina260):
 	print('V=%6.4f,I=%6.4f,' % (voltage,current))
 	logging.debug('V=%6.4f,I=%6.4f,' % (voltage,current))
 
-	return voltage, current
+	return round(voltage, 4), round(current, 4)
 
 """
 ##----------Modem Commands----------##
@@ -186,7 +186,7 @@ GPIO.setup(W_DISABLE, GPIO.OUT, initial=GPIO.LOW) # W_DISABLE pin on 4g module
 GPIO.setup(RI, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # RI pin on 4g module
 GPIO.setup(PERST, GPIO.OUT, initial=GPIO.LOW) # PERST pin on 4g module
 GPIO.setup(LED, GPIO.OUT, initial=GPIO.LOW) # LED pin
-# GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Button pin
+GPIO.setup(MODEM_POWER, GPIO.OUT, initial=GPIO.LOW) # 4G Modem Power mosfet pin
 
 # Initilise INA260 module
 ina260 = INA260(dev_address=0x40)
@@ -216,10 +216,34 @@ ID, NUM = load_settings()
 # Check Battery Voltage
 voltage,current = check_voltage(ina260)
 
+message = b'Module %s ' % ID.encode()
+
 if check_float() == "Yes":
     logging.info('Float switch is active')
-    # set gpio to high here to turn on modem
+    # Append message to be sent
+    message= message + b'Has Detected Water!'
+else:
+    logging.info('Float switch not active')
+    print('Float switch not active')
 
+if (11.9 > voltage >= 11.5):
+    logging.warning("Voltage LOW: %sV" % voltage)
+    # Append message to be sent 
+    message=message + b'LOW VOLTAGE! Voltage=%4.2fV Direct solar panel towards most consistent sunlight' % voltage
+elif (11.5 > voltage):
+    logging.warning("Voltage VERY LOW: %sV" % voltage)
+    # Append message to be sent
+    message=message + b'VERY LOW VOLTAGE WARNING!! Voltage=%4.2fV Module may run out of power, consider recharging the battery' % voltage
+else:
+    logging.warning("Voltage UNKNOWN: %sV" % voltage)
+    print("unknown voltage")
+
+print(message)
+if message != (b'Module %s ' % ID.encode()):
+    print('send sms')
+    # set gpio to high here to turn on modem
+    if GPIO.input(MODEM_POWER) != 1:
+        GPIO.output(MODEM_POWER, GPIO.HIGH)
     # init the modem
     modem = modem_init()
     # Send a text message
@@ -229,27 +253,7 @@ if check_float() == "Yes":
         )
     modem.disconnect()
     # set gpio to low here to turn off modem
-
-if (11.5 > voltage):
-    logging.warning("Voltage VERY LOW: %sV" % voltage)
-    print("send text for VERY LOW")
-    # check if modem has been initialised
-    try:
-        print("Is Modem Initialised?")
-        modem.connect()
-        print("Modem Initialised")
-    except:
-        print("Initialise Modem")
-        modem = modem_init()
-
-    # Send a text message
-    modem.sendMessage(
-        emulation=parsed_args.emulation,recipient=NUM.encode(),
-        message=b'Module %s VERY LOW VOLTAGE WARNING!! Voltage=%4.2f Module may run out of power, consider recharging the battery' % (ID.encode(),voltage)
-        )
-else:
-    logging.warning("Voltage UNKNOWN: %sV" % voltage)
-    print("unknown voltage")
+    GPIO.output(MODEM_POWER, GPIO.LOW)
 
 while(True):
     print("start")
