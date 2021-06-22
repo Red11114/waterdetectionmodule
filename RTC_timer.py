@@ -247,18 +247,15 @@ if message != (b'Module %s ' % ID.encode()):
     # init the modem
     modem = modem_init()
     # Send a text message
-    modem.sendMessage(
-        emulation=parsed_args.emulation,recipient=NUM.encode(),
-        message=b'Module %s Has Detected Water! Voltage=%4.2fV' % (ID.encode(),voltage)
-        )
+    modem.sendMessage(emulation=parsed_args.emulation,recipient=NUM.encode(),message=message)
     modem.disconnect()
     # set gpio to low here to turn off modem
     GPIO.output(MODEM_POWER, GPIO.LOW)
 
 while(True):
     print("start")
-    set_timer(0,0,3)
-    print("wait 3s")
-    time.sleep(3)
+    set_timer(0,0,10)
+    print("wait 10s")
+    time.sleep(10)
     print("wait another 1s")
     time.sleep(1)
